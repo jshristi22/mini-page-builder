@@ -1,5 +1,12 @@
 # Mini page builder
 A mini page builder implemented using drag &amp; drop functionality from scratch
+## UI
+![image](https://github.com/jshristi22/mini-page-builder/assets/82311180/c5d6f427-d77e-49a0-95fd-e3906fee9be3)
+![image](https://github.com/jshristi22/mini-page-builder/assets/82311180/8307c9df-38d2-433f-a9a1-7dde6168b135)
+![image](https://github.com/jshristi22/mini-page-builder/assets/82311180/c34aa861-d528-4aa1-81e9-884b37325f79)
+![image](https://github.com/jshristi22/mini-page-builder/assets/82311180/d735377c-0f54-4897-bd7e-bf9e2f233ca7)
+![image](https://github.com/jshristi22/mini-page-builder/assets/82311180/f13f881b-524d-41c0-ab16-320da8cecbcf)
+![image](https://github.com/jshristi22/mini-page-builder/assets/82311180/d280072e-b9ce-4e87-a97a-155c94b167e7)
 
 
 ## Documentation
