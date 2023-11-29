@@ -214,6 +214,7 @@ function PageBuilderTools() {
               <div
                 className={styles.tools}
                 draggable
+                onDragStart={() => setClickedElement(null)}
                 onDragEnd={(e) => {
                   setCurrentTool({
                     ...initialData,
