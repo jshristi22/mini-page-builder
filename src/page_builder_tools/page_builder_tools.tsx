@@ -71,6 +71,19 @@ function PageBuilderTools() {
     updateLocalStorageData(builderTools);
   };
 
+  const setValues = ( ele: IToolType, idx: number) => {
+    setCurrentTool(ele);
+    setClickedElement(idx);
+  };
+
+  const onToolClick = (
+    e: React.MouseEvent<HTMLElement, MouseEvent>,
+    idx: number
+  ) => {
+    setClickedElement(idx);
+    e.stopPropagation();
+  };
+
   const getElementBasedOnType = (ele: IToolType, idx: number) => {
     switch (ele.type) {
       case "Label":
@@ -79,13 +92,9 @@ function PageBuilderTools() {
             draggable
             className={clickedElement === idx ? styles.addRedBorder : ""}
             onClick={(e) => {
-              setClickedElement(idx);
-              e.stopPropagation();
+              onToolClick(e, idx);
             }}
-            onDragStart={() => {
-              setCurrentTool(ele);
-              setClickedElement(idx);
-            }}
+            onDragStart={() => setValues( ele, idx )}
             style={{
               color: "#000",
               fontSize: `${ele.fontSize}px`,
@@ -104,14 +113,10 @@ function PageBuilderTools() {
         return (
           <div
             draggable
-            onDragStart={() => {
-              setCurrentTool(ele);
-              setClickedElement(idx);
-            }}
+            onDragStart={() => setValues( ele, idx )}
             className={clickedElement === idx ? styles.addRedBorder : ""}
             onClick={(e) => {
-              setClickedElement(idx);
-              e.stopPropagation();
+              onToolClick(e, idx);
             }}
             style={{
               cursor: "grab",
@@ -131,14 +136,10 @@ function PageBuilderTools() {
         return (
           <div
             draggable
-            onDragStart={() => {
-              setCurrentTool(ele);
-              setClickedElement(idx);
-            }}
+            onDragStart={() => setValues( ele, idx )}
             className={clickedElement === idx ? styles.addRedBorder : ""}
-            onClick={(e) => {        
-              setClickedElement(idx);      
-              e.stopPropagation();
+            onClick={(e) => {
+              onToolClick(e, idx);
             }}
             style={{
               cursor: "grab",
@@ -147,7 +148,7 @@ function PageBuilderTools() {
               left: ele.xPosition,
             }}
           >
-            <Button              
+            <Button
               style={{
                 fontSize: `${ele.fontSize}px`,
                 fontWeight: ele.fontWeight,
@@ -195,14 +196,18 @@ function PageBuilderTools() {
       }
     });
   };
+
   return (
     <>
+      {/* Modal */}
       <CustomDialog
         isOpen={isMenuOpen}
         onClose={() => setIsMenuOpen(false)}
         tool={currentTool}
         onSuccess={(data) => setBuilderTools(data)}
       />
+
+      {/* Sidebar */}
       <div
         onClick={() => setClickedElement(null)}
         className={styles.pageBuilderToolsContainer}
@@ -231,22 +236,21 @@ function PageBuilderTools() {
           })}
         </div>
       </div>
+
+      {/* Canvas */}
       <div
         onClick={() => setClickedElement(null)}
-        id="targetDiv"
         className={styles.canvasContainer}
         onDrop={(e) => {
           e.preventDefault();
-          if (e.target.id === "targetDiv") {
-            if (currentTool.id === "") {
-              setIsMenuOpen(true);
-            } else {
-              updateToolsPosition(
-                { clientX: e.clientX, clientY: e.clientY },
-                currentTool,
-                clickedElement!
-              );
-            }
+          if (currentTool.id === "") {
+            setIsMenuOpen(true);
+          } else {
+            updateToolsPosition(
+              { clientX: e.clientX, clientY: e.clientY },
+              currentTool,
+              clickedElement!
+            );
           }
         }}
         onDragOver={(e) => {
