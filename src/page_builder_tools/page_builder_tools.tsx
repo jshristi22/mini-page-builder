@@ -30,6 +30,7 @@ const initialData: IToolType = {
 
 function PageBuilderTools() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [importedData, setImportedData] = useState('');
   const [clickedElement, setClickedElement] = useState<number | null>(null);
   const [currentTool, setCurrentTool] = useState<IToolType>(initialData);
   const [selectedTools, setSelectedTools] = useState<IToolType[]>([]);
@@ -64,6 +65,7 @@ function PageBuilderTools() {
       yPosition: e.clientY,
     };
     setCurrentTool(data);
+
     const builderTools = selectedTools;
     (builderTools[idx].xPosition = e.clientX),
       (builderTools[idx].yPosition = e.clientY),
@@ -71,7 +73,7 @@ function PageBuilderTools() {
     updateLocalStorageData(builderTools);
   };
 
-  const setValues = ( ele: IToolType, idx: number) => {
+  const setValues = (ele: IToolType, idx: number) => {
     setCurrentTool(ele);
     setClickedElement(idx);
   };
@@ -94,7 +96,7 @@ function PageBuilderTools() {
             onClick={(e) => {
               onToolClick(e, idx);
             }}
-            onDragStart={() => setValues( ele, idx )}
+            onDragStart={() => setValues(ele, idx)}
             style={{
               color: "#000",
               fontSize: `${ele.fontSize}px`,
@@ -113,7 +115,7 @@ function PageBuilderTools() {
         return (
           <div
             draggable
-            onDragStart={() => setValues( ele, idx )}
+            onDragStart={() => setValues(ele, idx)}
             className={clickedElement === idx ? styles.addRedBorder : ""}
             onClick={(e) => {
               onToolClick(e, idx);
@@ -136,7 +138,7 @@ function PageBuilderTools() {
         return (
           <div
             draggable
-            onDragStart={() => setValues( ele, idx )}
+            onDragStart={() => setValues(ele, idx)}
             className={clickedElement === idx ? styles.addRedBorder : ""}
             onClick={(e) => {
               onToolClick(e, idx);
@@ -178,6 +180,7 @@ function PageBuilderTools() {
     setSelectedTools(updatedData);
     updateLocalStorageData(updatedData);
   };
+
   const updateLocalStorageData = (data: IToolType[]) => {
     localStorage.setItem("builderTools", JSON.stringify(data));
   };
@@ -196,7 +199,10 @@ function PageBuilderTools() {
       }
     });
   };
-
+  const handleImport = () => {
+    const data = JSON.parse(importedData);
+    setSelectedTools(data)
+  };
   return (
     <>
       {/* Modal */}
@@ -234,6 +240,8 @@ function PageBuilderTools() {
               </div>
             );
           })}
+          <TextField value={importedData} onChange={(e)=> setImportedData(e.target.value)}/>
+          <Button onClick={handleImport}>Import</Button>
         </div>
       </div>
 
